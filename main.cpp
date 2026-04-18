@@ -1,15 +1,25 @@
 ﻿#include <Windows.h>
 #include "DirectX3D.h"
 #include "Input.h"
+#include "ImGUI/imgui.h"
+#include "ImGUI/imgui_impl_win32.h"
+#include "ImGUI/imgui_impl_dx11.h"
 #define WINDOW_CLASS_NAME L"DirectX_Sample"
+
+#pragma comment(lib, "dxgi.lib")
 
 namespace {
 
 }
 
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 using namespace DirectX3D;
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
+	if (ImGui_ImplWin32_WndProcHandler(hwnd, message, wParam, lParam))
+		return true;
+
 	switch (message) {
 		case WM_CREATE: {
 			break;
@@ -23,6 +33,21 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 		}
 	}
 	return DefWindowProc(hwnd, message, wParam, lParam);
+}
+
+int initializeImGUI(HWND hwnd) {
+	ImGui::CreateContext();
+	ImGuiIO& io = ImGui::GetIO();
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+
+	ImGui::StyleColorsDark();
+	ImGui_ImplWin32_Init(hwnd);
+	ID3D11Device* device = (ID3D11Device*)DirectX3D::d3d11Device_;
+	ID3D11DeviceContext* deviceContext = (ID3D11DeviceContext*)DirectX3D::d3d11Context_;
+	ImGui_ImplDX11_Init(device, deviceContext);
+
+	return 0;
 }
 
 int initializeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
@@ -67,6 +92,10 @@ int initializeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		MessageBox(hwnd, L"入力装置の初期化に失敗しました。", L"エラー", MB_OK);
 		return -1;
 	}
+	if (initializeImGUI(hwnd) == -1) {
+		MessageBox(hwnd, L"ImGUIの初期化に失敗しました。", L"エラー", MB_OK);
+		return -1;
+	}
 
 	MSG msg = {};
 	while (msg.message != WM_QUIT) {
@@ -77,10 +106,26 @@ int initializeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		else {
 			Input::update();
 			float color[4] = { 0, 0, 0, 1.0f };
+			DirectX3D::d3d11Context_->OMSetRenderTargets(1, &renderTargetView_, nullptr);
+			DirectX3D::d3d11Context_->ClearRenderTargetView(renderTargetView_, color);
 
-			d3d11Context_->OMSetRenderTargets(1, &renderTargetView_, nullptr);
-			d3d11Context_->ClearRenderTargetView(renderTargetView_, color);
-			swapChain_->Present(1, 0);
+			ImGui_ImplDX11_NewFrame();
+			ImGui_ImplWin32_NewFrame();
+			ImGui::NewFrame();
+
+			ImGui::Begin("Game");
+			ImGui::End();
+
+			ImGui::EndFrame();
+			ImGui::Render();
+			ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+			if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+				ImGui::UpdatePlatformWindows();
+				ImGui::RenderPlatformWindowsDefault();
+			}
+
+
+			DirectX3D::swapChain_->Present(1, 0);
 
 			if (Input::IsPushKey(DIK_0)) {
 				TranslateMessage(&msg);
@@ -90,6 +135,9 @@ int initializeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		}
 	}
 
+	ImGui_ImplDX11_Shutdown();
+	ImGui_ImplWin32_Shutdown();
+	ImGui::DestroyContext();
 	DirectX3D::release();
 	Input::release();
 }

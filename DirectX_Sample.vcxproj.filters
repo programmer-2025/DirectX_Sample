@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="ソース ファイル\ImGUI">
+      <UniqueIdentifier>{a628ec7d-bc6b-47b6-9903-b2fb0c5bfd64}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -24,6 +27,36 @@
     <ClCompile Include="Input.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="ImGUI\imgui.cpp">
+      <Filter>ソース ファイル\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGUI\imgui_demo.cpp">
+      <Filter>ソース ファイル\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGUI\imgui_draw.cpp">
+      <Filter>ソース ファイル\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGUI\imgui_impl_dx9.cpp">
+      <Filter>ソース ファイル\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGUI\imgui_impl_dx10.cpp">
+      <Filter>ソース ファイル\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGUI\imgui_impl_dx11.cpp">
+      <Filter>ソース ファイル\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGUI\imgui_impl_dx12.cpp">
+      <Filter>ソース ファイル\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGUI\imgui_impl_win32.cpp">
+      <Filter>ソース ファイル\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGUI\imgui_tables.cpp">
+      <Filter>ソース ファイル\ImGUI</Filter>
+    </ClCompile>
+    <ClCompile Include="ImGUI\imgui_widgets.cpp">
+      <Filter>ソース ファイル\ImGUI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectX3D.h">
@@ -34,6 +67,42 @@
     </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\imgui.h">
+      <Filter>ソース ファイル\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\imgui_impl_android.h">
+      <Filter>ソース ファイル\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\imgui_impl_dx9.h">
+      <Filter>ソース ファイル\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\imgui_impl_dx10.h">
+      <Filter>ソース ファイル\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\imgui_impl_dx11.h">
+      <Filter>ソース ファイル\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\imgui_impl_dx12.h">
+      <Filter>ソース ファイル\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\imgui_impl_win32.h">
+      <Filter>ソース ファイル\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\imgui_internal.h">
+      <Filter>ソース ファイル\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\imstb_rectpack.h">
+      <Filter>ソース ファイル\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\imstb_textedit.h">
+      <Filter>ソース ファイル\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\imstb_truetype.h">
+      <Filter>ソース ファイル\ImGUI</Filter>
+    </ClInclude>
+    <ClInclude Include="ImGUI\imconfig.h">
+      <Filter>ソース ファイル\ImGUI</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
