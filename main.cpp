@@ -1,5 +1,6 @@
 ﻿#include <Windows.h>
 #include "DirectX3D.h"
+#include "Input.h"
 #define WINDOW_CLASS_NAME L"DirectX_Sample"
 
 namespace {
@@ -62,6 +63,10 @@ int initializeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 		MessageBox(hwnd, L"DirectXの初期化に失敗しました", L"エラー", MB_OK);
 		return -1;
 	}
+	if (Input::initialize(hInstance, hwnd) == -1) {
+		MessageBox(hwnd, L"入力装置の初期化に失敗しました。", L"エラー", MB_OK);
+		return -1;
+	}
 
 	MSG msg = {};
 	while (msg.message != WM_QUIT) {
@@ -70,19 +75,29 @@ int initializeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			DispatchMessage(&msg);
 		}
 		else {
+			Input::update();
 			float color[4] = { 0, 0, 0, 1.0f };
 
 			d3d11Context_->OMSetRenderTargets(1, &renderTargetView_, nullptr);
 			d3d11Context_->ClearRenderTargetView(renderTargetView_, color);
 			swapChain_->Present(1, 0);
+
+			if (Input::IsPushKey(DIK_0)) {
+				TranslateMessage(&msg);
+				DispatchMessage(&msg);
+				break;
+			}
 		}
 	}
+
+	DirectX3D::release();
+	Input::release();
 }
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
 	if (initializeWindow(hInstance, hPrevInstance, lpCmdLine, nShowCmd) == -1) {
 		MessageBox(NULL, L"ウインドウの初期化に失敗しました", L"エラー", MB_OK);
+		return -1;
 	}
-	DirectX3D::release();
 	return 0;
 }

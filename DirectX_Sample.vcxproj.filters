@@ -21,12 +21,18 @@
     <ClCompile Include="DirectX3D.cpp">
       <Filter>ソース ファイル</Filter>
     </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>ソース ファイル</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DirectX3D.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
     <ClInclude Include="framework.h">
+      <Filter>ソース ファイル</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
       <Filter>ソース ファイル</Filter>
     </ClInclude>
   </ItemGroup>
