@@ -114,6 +114,7 @@ int initializeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			ImGui::NewFrame();
 
 			ImGui::Begin("Game");
+			ImGui::Text("mouse-left: %d, mouse-center, %d, mouse-right: %d", Input::IsPushMouse(0), Input::IsPushMouse(2), Input::IsPushMouse(1));
 			ImGui::End();
 
 			ImGui::EndFrame();
