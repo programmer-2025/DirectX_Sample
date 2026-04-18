@@ -128,6 +128,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="DirectX3D.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="DirectX3D.h" />
+    <ClInclude Include="framework.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

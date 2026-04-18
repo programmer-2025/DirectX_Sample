@@ -1,9 +1,12 @@
-#include <Windows.h>
+﻿#include <Windows.h>
+#include "DirectX3D.h"
 #define WINDOW_CLASS_NAME L"DirectX_Sample"
 
 namespace {
 
 }
+
+using namespace DirectX3D;
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) {
 	switch (message) {
@@ -55,6 +58,11 @@ int initializeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	ShowWindow(hwnd, nShowCmd);
 	UpdateWindow(hwnd);
 
+	if (DirectX3D::initializeDevice(hwnd) == -1) {
+		MessageBox(hwnd, L"DirectXの初期化に失敗しました", L"エラー", MB_OK);
+		return -1;
+	}
+
 	MSG msg = {};
 	while (msg.message != WM_QUIT) {
 		if (PeekMessage(&msg, NULL, 0U, 0U, PM_REMOVE)) {
@@ -62,7 +70,11 @@ int initializeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			DispatchMessage(&msg);
 		}
 		else {
+			float color[4] = { 0, 0, 0, 1.0f };
 
+			d3d11Context_->OMSetRenderTargets(1, &renderTargetView_, nullptr);
+			d3d11Context_->ClearRenderTargetView(renderTargetView_, color);
+			swapChain_->Present(1, 0);
 		}
 	}
 
