@@ -50,3 +50,11 @@ int DirectX3D::initializeDevice(HWND hwnd) {
     }
     return 0;
 }
+
+void DirectX3D::release() {
+	d3d11Device_->Release();
+	d3d11Context_->Release();
+    swapChain_->Release();
+    renderTargetView_->Release();
+    texture2D_->Release();
+}

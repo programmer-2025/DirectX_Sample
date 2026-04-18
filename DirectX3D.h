@@ -13,4 +13,5 @@ namespace DirectX3D {
 	inline ID3D11Texture2D* texture2D_ = nullptr;
 	
 	int initializeDevice(HWND hwnd);
+	void release();
 }

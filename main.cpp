@@ -77,12 +77,12 @@ int initializeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 			swapChain_->Present(1, 0);
 		}
 	}
-
 }
 
 int APIENTRY WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
 	if (initializeWindow(hInstance, hPrevInstance, lpCmdLine, nShowCmd) == -1) {
 		MessageBox(NULL, L"ウインドウの初期化に失敗しました", L"エラー", MB_OK);
 	}
+	DirectX3D::release();
 	return 0;
 }
