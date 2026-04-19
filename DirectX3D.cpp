@@ -48,6 +48,17 @@ int DirectX3D::initializeDevice(HWND hwnd) {
     if (FAILED(result)) {
         return -1;
     }
+
+    D3D11_VIEWPORT vp = {};
+    vp.Width = Screen::WIDTH;
+    vp.Height = Screen::HEIGHT;
+    vp.MinDepth = 0.0f;
+    vp.MaxDepth = 1.0f;
+    vp.TopLeftX = 0;
+    vp.TopLeftY = 0;
+
+    d3d11Context_->RSSetViewports(1, &vp);
+
     return 0;
 }
 
