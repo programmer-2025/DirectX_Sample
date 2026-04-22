@@ -11,7 +11,14 @@ namespace DirectX3D {
 	inline IDXGISwapChain* swapChain_ = nullptr;
 	inline ID3D11RenderTargetView* renderTargetView_ = nullptr;
 	inline ID3D11Texture2D* texture2D_ = nullptr;
+
+	//シェーダー
+	inline ID3D11VertexShader* vertexShader = nullptr;
+	inline ID3D11PixelShader* pixelShader = nullptr;
+	inline ID3D11InputLayout* inputLayout = nullptr;
+	inline ID3D11Buffer* vertexBuffer = nullptr;
 	
+	void initShader();
 	int initializeDevice(HWND hwnd);
 	void release();
 }
