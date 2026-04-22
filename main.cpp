@@ -86,33 +86,33 @@ void Update() {
 }
 
 int initializeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLine, int nShowCmd) {
-	WNDCLASSEXW wndClass = {};
-	wndClass.cbSize = sizeof(WNDCLASSEXW);
-	wndClass.hInstance = hInstance;
-	wndClass.lpszClassName = WINDOW_CLASS_NAME;
-	wndClass.lpfnWndProc = WndProc;
-	wndClass.hIcon = LoadIcon(nullptr, IDI_APPLICATION);	
-	wndClass.hIconSm = LoadIcon(nullptr, IDI_WINLOGO);
-	wndClass.hCursor = LoadCursor(nullptr, IDC_ARROW);	
-	wndClass.lpszMenuName = nullptr;
-	wndClass.cbClsExtra = 0;
-	wndClass.cbWndExtra = 0;
-	wndClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH);
-	RegisterClassEx(&wndClass);
 
+	//WNDCLASSEXWの参考：https://learn.microsoft.com/ja-jp/windows/win32/api/winuser/ns-winuser-wndclassexw
+	WNDCLASSEXW wndClass = {};
+	wndClass.cbSize = sizeof(WNDCLASSEXW); //構造体のサイズ
+	wndClass.hInstance = hInstance; //インスタンス
+	wndClass.lpszClassName = WINDOW_CLASS_NAME; //クラスの名前
+	wndClass.lpfnWndProc = WndProc; //ウインドウプロシージャ
+	wndClass.hIcon = LoadIcon(nullptr, IDI_APPLICATION); //アイコン（参考：https://learn.microsoft.com/ja-jp/windows/win32/menurc/about-icons）
+	wndClass.hIconSm = LoadIcon(nullptr, IDI_WINLOGO); //小さいアイコン
+	wndClass.hCursor = LoadCursor(nullptr, IDC_ARROW); //カーソル（参考：https://learn.microsoft.com/ja-jp/windows/win32/menurc/about-cursors）
+	wndClass.hbrBackground = (HBRUSH)GetStockObject(WHITE_BRUSH); //背景
+	RegisterClassEx(&wndClass); //ウインドウクラスを登録する関数
+
+	//CreateWindowの参考：https://learn.microsoft.com/ja-jp/windows/win32/api/winuser/nf-winuser-createwindoww
 	HWND hwnd = CreateWindow(
-		WINDOW_CLASS_NAME,
-		L"Game",
-		WS_OVERLAPPEDWINDOW,
-		CW_USEDEFAULT, CW_USEDEFAULT, //X座標＆Y座標
-		CW_USEDEFAULT, CW_USEDEFAULT, //幅＆高さ
-		NULL,
-		NULL,
-		hInstance,
-		NULL
+		WINDOW_CLASS_NAME, //クラスの名前（※WNDCLASSEXと同じクラス名を指定する）
+		L"Game", //ウインドウの名前
+		WS_OVERLAPPEDWINDOW, //ウインドウスタイル（参考：https://learn.microsoft.com/ja-jp/windows/win32/winmsg/window-styles）
+		CW_USEDEFAULT, CW_USEDEFAULT, //ウインドウのX座標＆Y座標
+		CW_USEDEFAULT, CW_USEDEFAULT, //ウインドウの幅＆高さ
+		NULL, //親ウインドウ（※親ウインドウがいない場合はNULLで問題ない）
+		NULL, //メニューのハンドル（※メニューがない場合はNULLで問題ない）
+		hInstance, //インスタンス
+		NULL //パラメータ
 	);
 
-	if (!hwnd) {
+	if (!hwnd) { //失敗した場合
 		return -1;
 	}
 
