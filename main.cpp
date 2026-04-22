@@ -6,6 +6,7 @@
 #include "ImGUI/imgui_impl_dx11.h"
 #include "SceneManager.h"
 #include <d3dcompiler.h>
+#include "Logger.h"
 #define WINDOW_CLASS_NAME L"DirectX_Sample"
 
 #pragma comment(lib, "dxgi.lib")
@@ -117,6 +118,7 @@ int initializeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 
 	ShowWindow(hwnd, nShowCmd);
 	UpdateWindow(hwnd);
+	Logger::debug(L"aa");
 
 	if (DirectX3D::initializeDevice(hwnd) == -1) {
 		MessageBox(hwnd, L"DirectXの初期化に失敗しました", L"エラー", MB_OK);
