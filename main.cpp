@@ -63,7 +63,9 @@ void Draw() {
 	ImGui_ImplWin32_NewFrame();
 	ImGui::NewFrame();
 
+	auto currentScene = SceneManager::GetCurrentScene();
 	ImGui::Begin("Game");
+	ImGui::Text("current scene: %s", (currentScene == nullptr ? "(nullptr)" : currentScene->GetName().c_str()));
 	ImGui::Text("mouse-left: %d, mouse-center, %d, mouse-right: %d", Input::IsPushMouse(0), Input::IsPushMouse(2), Input::IsPushMouse(1));
 	ImGui::End();
 

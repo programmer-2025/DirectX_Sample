@@ -17,6 +17,10 @@ namespace SceneManager {
 		currentScene = bootScene;
 	}
 
+	SceneBase* GetCurrentScene() {
+		return currentScene;
+	}
+
 	void DrawScene() {
 		if (currentScene == nullptr) return;
 		currentScene->Draw();
