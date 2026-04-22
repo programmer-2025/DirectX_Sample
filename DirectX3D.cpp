@@ -65,20 +65,21 @@ int DirectX3D::initializeDevice(HWND hwnd) {
 }
 
 void DirectX3D::initShader() {
-	ID3DBlob* vsBlob = nullptr;
-	ID3DBlob* psBlob = nullptr;
-	HRESULT result = {};
+	ID3DBlob* vsBlob = nullptr; //頂点シェーダのデータ
+	ID3DBlob* psBlob = nullptr; //ピクセルシェーダのデータ
+	HRESULT result = {}; //結果を保存するやつ
 
+	//参考：https://learn.microsoft.com/ja-jp/windows/win32/api/d3dcompiler/nf-d3dcompiler-d3dcompilefromfile
 	result = D3DCompileFromFile(
-		L"TestPixelShader.hlsl",
+		L"TestPixelShader.hlsl", //シェーダーのファイル
 		nullptr,
 		D3D_COMPILE_STANDARD_FILE_INCLUDE,
-		"main",
-		"ps_5_0",
-		D3DCOMPILE_ENABLE_STRICTNESS,
-		0,
-		&psBlob,
-		NULL
+		"main", //シェーダーのメイン関数
+		"ps_5_0", //シェーダーの種類（参考：https://learn.microsoft.com/ja-jp/windows/win32/direct3dhlsl/specifying-compiler-targets）
+		D3DCOMPILE_ENABLE_STRICTNESS, //シェーダーコンパイルオプション（参考：https://learn.microsoft.com/ja-jp/windows/win32/direct3dhlsl/d3dcompile-constants）
+		0, //オプション（参考：https://learn.microsoft.com/ja-jp/windows/win32/direct3dhlsl/d3dcompile-effect-constants）
+		&psBlob, //コンパイルしたデータを指定する
+		NULL //コンパイル失敗時のデータを保存するやつ
 	);
 
 	result = D3DCompileFromFile(
