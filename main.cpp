@@ -120,18 +120,9 @@ int initializeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	UpdateWindow(hwnd);
 	Logger::debug(L"aa");
 
-	if (DirectX3D::initializeDevice(hwnd) == -1) {
-		MessageBox(hwnd, L"DirectXの初期化に失敗しました", L"エラー", MB_OK);
-		return -1;
-	}
-	if (Input::initialize(hInstance, hwnd) == -1) {
-		MessageBox(hwnd, L"入力装置の初期化に失敗しました。", L"エラー", MB_OK);
-		return -1;
-	}
-	if (initializeImGUI(hwnd) == -1) {
-		MessageBox(hwnd, L"ImGUIの初期化に失敗しました。", L"エラー", MB_OK);
-		return -1;
-	}
+	assert((DirectX3D::initializeDevice(hwnd) == 0)); //DirectXの初期化
+	assert((Input::initialize(hInstance, hwnd) == 0)); //入力デバイスの初期化
+	assert((initializeImGUI(hwnd) == 0)); //ImGUIの初期化
 	DirectX3D::initShader();
 
 	MSG msg = {};

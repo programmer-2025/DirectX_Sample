@@ -32,7 +32,7 @@ void BootScene::Draw() {
 	DirectX3D::d3d11Context_->VSSetShader(vertexShader, nullptr, 0);
 	DirectX3D::d3d11Context_->PSSetShader(pixelShader, nullptr, 0);
 
-	DirectX3D::d3d11Context_->Draw(3, 0);
+	DirectX3D::d3d11Context_->Draw(6, 0);
 }
 
 void BootScene::Init() {
