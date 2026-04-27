@@ -2,17 +2,21 @@
 #include "SceneBase.h"
 #include <Windows.h>
 #include "DirectX3D.h"
+#include "Box2D.h"
 
-struct Vertex {
-	float x, y, z;
-	float r, g, b, a;
-};
+namespace {
+    Box2D* box = nullptr;
+    Box2D* box2 = nullptr;
+}
 
 using namespace DirectX3D;
 
 BootScene::BootScene()
     : SceneBase("BootScene") {
-
+    box = new Box2D(-0.5f, 0.5f, 1.0f, -1.0f);
+    box2 = new Box2D(-0.7f, 0.5f, 0.1f, -1.0f);
+    box->Init();
+    box2->Init();
 }
 
 BootScene::~BootScene() {
@@ -23,16 +27,8 @@ void BootScene::Update() {
 }
 
 void BootScene::Draw() {
-	UINT stride = sizeof(Vertex);
-	UINT offset = 0;
-
-	DirectX3D::d3d11Context_->IASetInputLayout(inputLayout);
-	DirectX3D::d3d11Context_->IASetVertexBuffers(0, 1, &vertexBuffer, &stride, &offset);
-	DirectX3D::d3d11Context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-	DirectX3D::d3d11Context_->VSSetShader(vertexShader, nullptr, 0);
-	DirectX3D::d3d11Context_->PSSetShader(pixelShader, nullptr, 0);
-
-	DirectX3D::d3d11Context_->Draw(6, 0);
+    box->Draw();
+    box2->Draw();
 }
 
 void BootScene::Init() {

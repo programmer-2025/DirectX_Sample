@@ -15,6 +15,7 @@ namespace SceneManager {
 		auto bootScene = new BootScene();
 		sceneList.push_back(bootScene);
 		currentScene = bootScene;
+		currentScene->Init();
 	}
 
 	SceneBase* GetCurrentScene() {

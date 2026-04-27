@@ -117,33 +117,6 @@ void DirectX3D::initShader() {
 		&inputLayout
 	);
 	assert(SUCCEEDED(result));
-
-	struct Vertex {
-		float x, y, z;
-		float r, g, b, a;
-	};
-
-	Vertex vertices[6] = {
-		// 三角形①
-		{ -0.5f,  0.5f, 0.5f, 1,0,0,1 }, //左上
-		{  0.5f,  0.5f, 0.0f, 0,1,0,1 }, //右上
-		{  0.5f, -0.5f, 0.0f, 1,1,0,1 }, //右下
-
-		// 三角形②
-		{ -0.5f,  0.5f, 0.0f, 1,0,0,1 }, //左上
-		{  0.5f, -0.5f, 0.0f, 1,1,0,1 }, //右下
-		{ -0.5f, -0.5f, 0.0f, 0,0,1,1 }, //左下
-	};
-
-	D3D11_BUFFER_DESC bd = {};
-	bd.Usage = D3D11_USAGE_DEFAULT;
-	bd.ByteWidth = sizeof(vertices);
-	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
-
-	D3D11_SUBRESOURCE_DATA initData = {};
-	initData.pSysMem = vertices;
-
-	result = d3d11Device_->CreateBuffer(&bd, &initData, &vertexBuffer);
 }
 
 void DirectX3D::release() {

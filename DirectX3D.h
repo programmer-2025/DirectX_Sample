@@ -5,6 +5,11 @@
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
 
+struct Vertex {
+	float x, y, z;
+	float r, g, b, a;
+};
+
 namespace DirectX3D {
 	inline ID3D11Device* d3d11Device_ = nullptr;
 	inline ID3D11DeviceContext* d3d11Context_ = nullptr;
@@ -16,7 +21,6 @@ namespace DirectX3D {
 	inline ID3D11VertexShader* vertexShader = nullptr;
 	inline ID3D11PixelShader* pixelShader = nullptr;
 	inline ID3D11InputLayout* inputLayout = nullptr;
-	inline ID3D11Buffer* vertexBuffer = nullptr;
 	
 	void initShader();
 	int initializeDevice(HWND hwnd);

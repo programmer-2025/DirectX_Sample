@@ -25,7 +25,6 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam) 
 
 	switch (message) {
 		case WM_CREATE: {
-			SceneManager::InitManager();
 			break;
 		}
 		case WM_COMMAND: {
@@ -124,6 +123,7 @@ int initializeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	assert((Input::initialize(hInstance, hwnd) == 0)); //入力デバイスの初期化
 	assert((initializeImGUI(hwnd) == 0)); //ImGUIの初期化
 	DirectX3D::initShader();
+	SceneManager::InitManager();
 
 	MSG msg = {};
 	while (msg.message != WM_QUIT) {

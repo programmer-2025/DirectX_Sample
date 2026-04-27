@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BootScene.cpp" />
+    <ClCompile Include="Box2D.cpp" />
     <ClCompile Include="ImGUI\imgui.cpp" />
     <ClCompile Include="ImGUI\imgui_demo.cpp" />
     <ClCompile Include="ImGUI\imgui_draw.cpp" />
@@ -146,8 +147,10 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="BootScene.h" />
+    <ClInclude Include="Box2D.h" />
     <ClInclude Include="DirectX3D.h" />
     <ClInclude Include="framework.h" />
+    <ClInclude Include="BaseObject.h" />
     <ClInclude Include="ImGUI\imconfig.h" />
     <ClInclude Include="ImGUI\imgui.h" />
     <ClInclude Include="ImGUI\imgui_impl_android.h" />
