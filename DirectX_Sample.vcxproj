@@ -127,6 +127,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="AudioManager.cpp" />
     <ClCompile Include="BootScene.cpp" />
     <ClCompile Include="Box2D.cpp" />
     <ClCompile Include="ImGUI\imgui.cpp" />
@@ -147,6 +148,7 @@
     <ClCompile Include="Texture.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AudioManager.h" />
     <ClInclude Include="BootScene.h" />
     <ClInclude Include="Box2D.h" />
     <ClInclude Include="DirectX3D.h" />

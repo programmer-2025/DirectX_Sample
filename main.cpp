@@ -7,6 +7,7 @@
 #include "SceneManager.h"
 #include <d3dcompiler.h>
 #include "Logger.h"
+#include "AudioManager.h"
 #define WINDOW_CLASS_NAME L"DirectX_Sample"
 
 #pragma comment(lib, "dxgi.lib")
@@ -126,6 +127,10 @@ int initializeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	assert((initializeImGUI(hwnd) == 0)); //ImGUIの初期化
 	DirectX3D::initShader();
 	SceneManager::InitManager();
+	AudioManager::InitManager();
+
+	int id = AudioManager::Load(L"test_sound.wav", true);
+	AudioManager::Play(id);
 
 	MSG msg = {};
 	while (msg.message != WM_QUIT) {
