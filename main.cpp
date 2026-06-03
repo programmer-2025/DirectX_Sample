@@ -8,12 +8,13 @@
 #include <d3dcompiler.h>
 #include "Logger.h"
 #include "AudioManager.h"
+#include "ObjectManager.h"
 #define WINDOW_CLASS_NAME L"DirectX_Sample"
 
 #pragma comment(lib, "dxgi.lib")
 
 namespace {
-
+	HWND hwnd = {};
 }
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hwnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -59,6 +60,7 @@ void Draw() {
 	DirectX3D::d3d11Context_->OMSetRenderTargets(1, &renderTargetView_, nullptr);
 	DirectX3D::d3d11Context_->ClearRenderTargetView(renderTargetView_, color);
 	SceneManager::DrawScene();
+	ObjectManager::UpdateManager();
 
 	ImGui_ImplDX11_NewFrame();
 	ImGui_ImplWin32_NewFrame();
@@ -102,7 +104,7 @@ int initializeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	RegisterClassEx(&wndClass); //ウインドウクラスを登録する関数
 
 	//CreateWindowの参考：https://learn.microsoft.com/ja-jp/windows/win32/api/winuser/nf-winuser-createwindoww
-	HWND hwnd = CreateWindow(
+	hwnd = CreateWindow(
 		WINDOW_CLASS_NAME, //クラスの名前（※WNDCLASSEXと同じクラス名を指定する）
 		L"Game", //ウインドウの名前
 		WS_OVERLAPPEDWINDOW, //ウインドウスタイル（参考：https://learn.microsoft.com/ja-jp/windows/win32/winmsg/window-styles）
@@ -129,8 +131,8 @@ int initializeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	SceneManager::InitManager();
 	AudioManager::InitManager();
 
-	int id = AudioManager::Load(L"test_sound.wav", true);
-	AudioManager::Play(id);
+	//int id = AudioManager::Load(L"test_sound.wav", true);
+	//AudioManager::Play(id);
 
 	MSG msg = {};
 	while (msg.message != WM_QUIT) {
