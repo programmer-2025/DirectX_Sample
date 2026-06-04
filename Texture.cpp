@@ -127,16 +127,6 @@ void Texture::Init() {
 }
 
 void Texture::Update() {
-	static float angle = 0.0f;
-	if (Input::IsPushKey(DIK_E)) {
-		leftY_ += 0.05f;
-		angle += 0.05f;
-	}
-	else if (Input::IsPushKey(DIK_D)) {
-		leftY_ -= 0.05f;
-		angle -= 0.05f;
-	}
-
 	auto world =
 		XMMatrixRotationZ(angle) *
 		XMMatrixTranslation(leftX_, leftY_, 0.0f);
@@ -181,6 +171,5 @@ void Texture::Draw() {
 	DirectX3D::d3d11Context_->RSSetState(nullptr);
 }
 
-void Texture::Release()
-{
+void Texture::Release() {
 }
