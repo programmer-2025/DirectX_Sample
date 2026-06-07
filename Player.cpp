@@ -31,10 +31,6 @@ void Player::Update() {
 
 void Player::Draw(){
 
-	ImGui::Begin("Player");
-	ImGui::SliderFloat("X", &texture->leftX_, -1.0, 1.0);
-	ImGui::SliderFloat("Y", &texture->leftY_, -1.0, 1.0);
-	ImGui::End();
 }
 
 void Player::Release()

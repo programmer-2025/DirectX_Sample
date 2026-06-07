@@ -1,7 +1,9 @@
 #include "ObjectManager.h"
 
 void ObjectManager::InitManager() {
-    for (BaseObject* obj : objList) {
+    for (int n = 0; n < objList.size(); n++) {
+        BaseObject* obj = objList[n];
+        if (obj == nullptr) continue;
         obj->Init();
     }
 }

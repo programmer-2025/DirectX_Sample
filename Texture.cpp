@@ -6,6 +6,7 @@
 #include "Input.h"
 #include <directxmath.h>
 #include "BootScene.h"
+#include "ImGUI/imgui.h"
 
 #pragma comment(lib, "d3d11.lib")
 #pragma comment(lib, "d3dcompiler.lib")
@@ -131,18 +132,27 @@ void Texture::Update() {
 		XMMatrixRotationZ(angle) *
 		XMMatrixTranslation(leftX_, leftY_, 0.0f);
 
+	static float viewLeft = -1.0f, viewRight = 1.0f, viewBottom = -1.0f, viewTop = 1.0f, NearZ = 0.0f, FarZ = 1.0f;
 	auto proj = XMMatrixOrthographicOffCenterLH(
-		-1.0f, 1.0f, 
-		-1.0f, 1.0f, 
-		0.0f, 1.0f  
+		viewLeft, viewRight, viewBottom, viewTop, NearZ, FarZ
 	);
 
-	auto wvp = world * proj;
+	auto wvp = world;
 
 	ConstantBuffer constantbuffer = {};
 	constantbuffer.worldViewProj = XMMatrixTranspose(wvp); // 行列を縦横を入れ替える
 
 	DirectX3D::d3d11Context_->UpdateSubresource(constantBuffer_, 0, nullptr, &constantbuffer, 0, 0);
+
+	ImGui::Begin("Player");
+	ImGui::SliderFloat("X", &leftX_, -1.0, 1.0);
+	ImGui::SliderFloat("Y", &leftY_, -1.0, 1.0);
+
+	ImGui::SliderFloat("Left", &viewLeft, -1.0, 1.0);
+	ImGui::SliderFloat("Right", &viewRight, -1.0, 1.0);
+	ImGui::SliderFloat("Bottom", &viewBottom, -1.0, 1.0);
+	ImGui::SliderFloat("Top", &viewTop, -1.0, 1.0);
+	ImGui::End();
 }
 
 void Texture::Draw() {
