@@ -9,20 +9,11 @@
 using namespace fbxsdk;
 using namespace DirectX;
 
-namespace {
-	FbxNode* rootNode = nullptr;
-	FbxNode* node = nullptr; //結合済み前提
-	FbxMesh* mesh = nullptr;
-	int indexCount_ = 0;
-}
-
-
 FBX::FBX()
 	: BaseObject("FBX", true) {
 }
 
-FBX::~FBX()
-{
+FBX::~FBX() {
 }
 
 HRESULT FBX::Load(const std::string fName) {
@@ -139,6 +130,11 @@ void FBX::Update() {
 void FBX::Draw() {
 	UINT stride = sizeof(VERTEX);
 	UINT offset = 0;
+	ID3D11ShaderResourceView* srv[1] = { nullptr };
+	ID3D11SamplerState* sampler[1] = { nullptr };
+
+	DirectX3D::d3d11Context_->PSSetShaderResources(0, 1, srv);
+	DirectX3D::d3d11Context_->PSSetSamplers(0, 1, sampler);
 
 	DirectX3D::d3d11Context_->VSSetShader(DirectX3D::vertexShader, nullptr, 0);
 	DirectX3D::d3d11Context_->PSSetShader(DirectX3D::pixelShader, nullptr, 0);
@@ -155,6 +151,8 @@ void FBX::Draw() {
 	DirectX3D::d3d11Context_->RSSetState(rasterizerState);
 	DirectX3D::d3d11Context_->DrawIndexed(polygonCount_ * 3, 0, 0);
 	DirectX3D::d3d11Context_->RSSetState(nullptr);
+
+
 }
 
 void FBX::Release()
