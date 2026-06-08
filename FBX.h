@@ -20,6 +20,10 @@ public:
 	int vertexCount_;	//頂点数
 	int polygonCount_;	//ポリゴン数
 	int materialCount_;
+	FbxNode* rootNode = nullptr;
+	FbxNode* node = nullptr; //結合済み前提
+	FbxMesh* mesh = nullptr;
+	int indexCount_ = 0;
 
 	FBX();
 	~FBX();
