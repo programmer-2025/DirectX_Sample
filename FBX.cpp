@@ -121,8 +121,12 @@ void FBX::Update() {
 	static float leftX = 0.0f, leftY = 0.0f, z = 0.0f;
 	ConstantBuffer cb = {};
 	DirectX::XMMATRIX world = XMMatrixScaling(0.5, 0.5, 0.5) * (XMMatrixRotationZ(angle)) * XMMatrixTranslation(leftX, leftY, z);
-	DirectX::XMMATRIX view = DirectX::XMMatrixIdentity();
-	DirectX::XMMATRIX projection = DirectX::XMMatrixIdentity();
+	DirectX::XMMATRIX view = DirectX::XMMatrixLookAtLH(
+		DirectX::XMVectorSet(0.0f, 0.0f, -5.0f, 1.0f), //EyeLocation（※カメラの位置）
+		DirectX::XMVectorSet(0.0f, 2.0f, 0.0f, 1.0f), //FoucusPostion（※注視点）
+		DirectX::XMVectorSet(0.0f, 1.0f, 0.0f, 1.0f)  //カメラの上方向
+	);
+	DirectX::XMMATRIX projection = DirectX::XMMatrixPerspectiveFovLH(XMConvertToRadians(90.0f), 1280.0f / 720.0f, 0.1f, 100.0f);
 
 	cb.worldViewProj = XMMatrixTranspose(world * view * projection);
 
