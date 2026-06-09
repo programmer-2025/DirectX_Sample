@@ -138,7 +138,9 @@
     <ClCompile Include="BootScene.cpp" />
     <ClCompile Include="Box2D.cpp" />
     <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="DirectX2D.cpp" />
     <ClCompile Include="FBX.cpp" />
+    <ClCompile Include="FontText.cpp" />
     <ClCompile Include="ImGUI\imgui.cpp" />
     <ClCompile Include="ImGUI\imgui_demo.cpp" />
     <ClCompile Include="ImGUI\imgui_draw.cpp" />
@@ -163,8 +165,10 @@
     <ClInclude Include="BootScene.h" />
     <ClInclude Include="Box2D.h" />
     <ClInclude Include="Camera.h" />
+    <ClInclude Include="DirectX2D.h" />
     <ClInclude Include="DirectX3D.h" />
     <ClInclude Include="FBX.h" />
+    <ClInclude Include="FontText.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="BaseObject.h" />
     <ClInclude Include="ImGUI\imconfig.h" />

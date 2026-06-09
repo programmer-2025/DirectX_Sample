@@ -9,6 +9,7 @@
 #include "Logger.h"
 #include "AudioManager.h"
 #include "ObjectManager.h"
+#include "DirectX2D.h"
 #define WINDOW_CLASS_NAME L"DirectX_Sample"
 
 #pragma comment(lib, "dxgi.lib")
@@ -130,6 +131,7 @@ int initializeWindow(HINSTANCE hInstance, HINSTANCE hPrevInstance, LPSTR lpCmdLi
 	DirectX3D::initShader();
 	SceneManager::InitManager();
 	AudioManager::InitManager();
+	//DirectX2D::Init();
 
 	//int id = AudioManager::Load(L"test_sound.wav", true);
 	//AudioManager::Play(id);

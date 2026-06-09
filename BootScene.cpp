@@ -8,6 +8,7 @@
 #include "FBX.h"
 #include "ImGUI/imgui.h"
 #include "Camera.h"
+#include "FontText.h"
 
 using namespace DirectX3D;
 using namespace DirectX;
@@ -20,6 +21,7 @@ BootScene::BootScene()
     auto fbx = (new FBX());
     fbx->Load("Oden.fbx");
     assert(DirectX3D::swapChain_);
+    //new FontText(L"aaa");
 }
 
 BootScene::~BootScene() {
