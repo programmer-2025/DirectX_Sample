@@ -9,31 +9,37 @@
 #pragma comment(lib, "LibXml2-MD.lib")
 #pragma comment(lib, "zlib-MD.lib")
 
+struct MATERIAL {
+	Texture* texture;
+};
+
 /// <summary>
 /// FBXの3Dモデルを表示するクラス
 /// </summary>
 class FBX : public BaseObject {
-public:
-
-	struct MATERIAL {
-		Texture* texture;
-	};
-
-	ID3D11Buffer* pVertexBuffer_;
-	ID3D11Buffer** pIndexBuffer_; 
+private:
+	ID3D11Buffer* pVertexBuffer_; //頂点バッファ
+	ID3D11Buffer** pIndexBuffer_; //インデックスバッファ（※数は分からないため、ポインタの配列）
 	ID3D11Buffer* pConstantBuffer_; //コンスタントバッファ
-	int vertexCount_;	//頂点数
-	int polygonCount_;	//ポリゴン数
-	int materialCount_;
-	FbxNode* rootNode = nullptr;
-	FbxNode* node = nullptr; //結合済み前提
-	FbxMesh* mesh = nullptr;
-	int indexCount_ = 0;
-	MATERIAL* materials_ = nullptr;
 
+	FbxManager* fbxManager_;
+	FbxImporter* fbxImporter_;
+	int* index_;
+	int materialCount_;
+	int vertexCount_;
+	int polygonCount_;
+	int indexCount_;
+	MATERIAL* materials_; //マテリアルの配列データ（※数は分からないため、ポインタ）
+	Vertex* vertices_; //頂点の配列データ（※数は分からないため、ポインタ）
+public:
 	FBX();
 	~FBX();
+
 	HRESULT Load(const std::string name);
+	ID3D11Buffer* GetVertexBuffer() const { return pVertexBuffer_; }
+	ID3D11Buffer** GetIndexBuffer() const { return pIndexBuffer_; }
+	ID3D11Buffer* GetConstantBuffer() const { return pConstantBuffer_; }
+
 	void Init() override;
 	void InitVertex(fbxsdk::FbxMesh* mesh);
 	void InitIndex(fbxsdk::FbxMesh* mesh);

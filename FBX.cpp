@@ -6,40 +6,38 @@
 #include <vector>
 #include "ImGUI/imgui.h"
 #include "Camera.h"
+#include "framework.h"
 
 using namespace fbxsdk;
 using namespace DirectX;
 
 FBX::FBX()
 	: BaseObject("FBX", true) {
+	indexCount_ = -1;
+	materialCount_ = -1;
+	polygonCount_ = -1;
+	vertexCount_ = -1;
+	materials_ = nullptr;
+	pConstantBuffer_ = nullptr;
+	pIndexBuffer_ = nullptr;
+	pVertexBuffer_ = nullptr;
+	vertices_ = nullptr;
 }
 
 FBX::~FBX() {
 }
 
 HRESULT FBX::Load(const std::string fName) {
-	FbxManager* fbxManager = FbxManager::Create();
-	FbxImporter* fbxImporter = FbxImporter::Create(fbxManager, "imp");
-	fbxImporter->Initialize(fName.c_str(), -1, fbxManager->GetIOSettings());
-	FbxScene* fbxScene = FbxScene::Create(fbxManager, "fbxscene");
-	fbxImporter->Import(fbxScene);
-	fbxImporter->Destroy();
+	fbxManager_ = FbxManager::Create();
+	fbxImporter_ = FbxImporter::Create(fbxManager_, "imp");
+	fbxImporter_->Initialize(fName.c_str(), -1, fbxManager_->GetIOSettings());
+	FbxScene* fbxScene = FbxScene::Create(fbxManager_, "fbxscene");
+	fbxImporter_->Import(fbxScene);
+	fbxImporter_->Destroy();
 
-	rootNode = fbxScene->GetRootNode();
-	
-	auto a = rootNode->GetChildCount();
-
-	for (int i = 0; i < rootNode->GetChildCount(); i++)
-	{
-		FbxNode* child = rootNode->GetChild(i);
-
-		auto ii = child->GetName();
-
-		auto uu = child->GetMesh();
-	}
-
-	node = rootNode->GetChild(0); //結合済み前提
-	mesh = node->GetMesh();
+	FbxNode* rootNode = fbxScene->GetRootNode();
+	FbxNode* node = rootNode->GetChild(0); //結合済み前提
+	FbxMesh* mesh = node->GetMesh();
 
 	vertexCount_ = mesh->GetControlPointsCount();
 	polygonCount_ = mesh->GetPolygonCount();
@@ -53,27 +51,26 @@ HRESULT FBX::Load(const std::string fName) {
 	return S_OK;
 }
 
-void FBX::Init()
-{
+void FBX::Init() {
 }
 
 void FBX::InitVertex(FbxMesh* mesh) {
-	Vertex* vertices = new Vertex[vertexCount_](); //頂点
+	vertices_ = new Vertex[vertexCount_](); //頂点
 
 	for (DWORD poly = 0; poly < polygonCount_; poly++) {
 		for (int vertex = 0; vertex < 3; vertex++) {
 			int index = mesh->GetPolygonVertex(poly, vertex);
 			FbxVector4 pos = mesh->GetControlPointAt(index);
-			vertices[index].x = (float)pos[0];
-			vertices[index].y = (float)pos[1];
-			vertices[index].z = (float)pos[2];
+			vertices_[index].x = (float)pos[0];
+			vertices_[index].y = (float)pos[1];
+			vertices_[index].z = (float)pos[2];
 
 			FbxLayerElementUV* uvLayer = mesh->GetLayer(0)->GetUVs();
 			int uvIndex = mesh->GetTextureUVIndex(poly, vertex);
 			FbxVector2 uv = uvLayer->GetDirectArray().GetAt(uvIndex);
 
-			vertices[index].u = (float)uv.mData[0];
-			vertices[index].v = (float)(1.0f - uv.mData[1]);
+			vertices_[index].u = (float)uv.mData[0];
+			vertices_[index].v = (float)(1.0f - uv.mData[1]);
 		}
 	}
 
@@ -83,14 +80,14 @@ void FBX::InitVertex(FbxMesh* mesh) {
 	bd.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 
 	D3D11_SUBRESOURCE_DATA data = {};
-	data.pSysMem = vertices;
+	data.pSysMem = vertices_;
 
 	HRESULT hr = DirectX3D::d3d11Device_->CreateBuffer(&bd, &data, &pVertexBuffer_);
 }
 
 void FBX::InitIndex(FbxMesh* mesh) {
 	pIndexBuffer_ = new ID3D11Buffer*[materialCount_];
-	int* index = new int[polygonCount_ * 3];
+	index_ = new int[polygonCount_ * 3];
 
 	for (int i = 0; i < materialCount_; i++) {
 		int count = 0;
@@ -101,7 +98,7 @@ void FBX::InitIndex(FbxMesh* mesh) {
 
 			if (materialId == i) {
 				for (DWORD vertex = 0; vertex < 3; vertex++) {
-					index[count] = mesh->GetPolygonVertex(poly, vertex);
+					index_[count] = mesh->GetPolygonVertex(poly, vertex);
 					count++;
 				}
 			}
@@ -114,7 +111,7 @@ void FBX::InitIndex(FbxMesh* mesh) {
 		bd.BindFlags = D3D11_BIND_INDEX_BUFFER;
 
 		D3D11_SUBRESOURCE_DATA data = {};
-		data.pSysMem = index;
+		data.pSysMem = index_;
 
 		HRESULT hr = DirectX3D::d3d11Device_->CreateBuffer(&bd, &data, &pIndexBuffer_[i]);
 	}
@@ -200,6 +197,10 @@ void FBX::Draw() {
 
 }
 
-void FBX::Release()
-{
+void FBX::Release() {
+	SAFE_DELETE(materials_);
+	SAFE_DELETE(vertices_);
+	SAFE_DELETE(index_)
+	fbxManager_->Destroy();
+	fbxImporter_->Destroy();
 }
