@@ -9,12 +9,14 @@
 #pragma comment(lib, "LibXml2-MD.lib")
 #pragma comment(lib, "zlib-MD.lib")
 
+/// <summary>
+/// FBXの3Dモデルを表示するクラス
+/// </summary>
 class FBX : public BaseObject {
 public:
 
 	struct MATERIAL {
 		Texture* texture;
-		
 	};
 
 	ID3D11Buffer* pVertexBuffer_;

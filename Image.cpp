@@ -1,35 +1,18 @@
-#include "Texture.h"
+#include "Image.h"
 #include "BaseObject.h"
-#include <wincodec.h>
-#include <assert.h>
-#include <vector>
-#include "Input.h"
-#include <directxmath.h>
 #include "BootScene.h"
 #include "ImGUI/imgui.h"
+#include <wincodec.h>
+#include <vector>
 #include "Camera.h"
 
-#pragma comment(lib, "d3d11.lib")
-#pragma comment(lib, "d3dcompiler.lib")
-
 using namespace DirectX;
-using namespace DirectX3D;
 
-Texture::Texture(const std::string path, const float leftX, const float leftY)
-	: BaseObject("Texture", true) {
-	path_ = path;
-
-	// スクリーン座標 → 画像の座標
-	vertices_[0] = { leftX, leftY + 1.0f, 0.0f, 0,1,0,1, 0, 0 }; // スクリーン座標: 左下 → 画像の座標: 左上 
-	vertices_[1] = { leftX, leftY, 0.0f, 1,0,0,1, 0, 1 }; // 左上 → 左下
-	vertices_[2] = { leftX + 1.0f, leftY, 0.0f, 1,1,0,1, 1, 1 }; // 右上 → 右下
-
-	vertices_[3] = { leftX + 1.0f, leftY, 0.0f, 1,0,0,1, 1, 1 }; // 右上 → 右下
-	vertices_[4] = { leftX, leftY + 1.0f, 0.0f, 1,1,0,1, 0, 0 }; // 左下 → 左上
-	vertices_[5] = { leftX + 1.0f, leftY + 1.0f, 0.0f, 0,0,1,1, 1, 0 }; // 右下 → 右上
+Image::Image(std::string path, float leftX, float leftY)
+	: BaseObject("Image", true) {
 }
 
-void Texture::Init() {
+void Image::Init() {
 	static HRESULT result = { 0 };
 	IWICImagingFactory* pFactory = nullptr;
 	IWICBitmapDecoder* pDecoder = nullptr;
@@ -76,7 +59,7 @@ void Texture::Init() {
 	desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
 	desc.CPUAccessFlags = 0;
 	desc.MipLevels = 1;
-	
+
 	std::vector<BYTE> imageData;
 	size_t rowBytes = static_cast<size_t>(width_) * 4;
 	size_t imageSize = rowBytes * static_cast<size_t>(height_);
@@ -126,7 +109,7 @@ void Texture::Init() {
 
 }
 
-void Texture::Update() {
+void Image::Update() {
 	XMMATRIX scaleMat = XMMatrixScaling(scale_.x, scale_.y, scale_.z);
 	XMMATRIX rotMat = XMMatrixRotationZ(rotation_.z) * XMMatrixRotationX(rotation_.x) * XMMatrixRotationY(rotation_.y);
 	XMMATRIX transMat = XMMatrixTranslation(postion_.x, postion_.y, postion_.z);
@@ -152,7 +135,7 @@ void Texture::Update() {
 	DirectX3D::d3d11Context_->UpdateSubresource(constantBuffer_, 0, nullptr, &cb, 0, 0);
 }
 
-void Texture::Draw() {
+void Image::Draw() {
 	UINT stride = sizeof(Vertex);
 	UINT offset = 0;
 
@@ -173,10 +156,11 @@ void Texture::Draw() {
 	DirectX3D::d3d11Device_->CreateRasterizerState(&rasterizerDesc, &rasterizerState);
 	DirectX3D::d3d11Context_->RSSetState(rasterizerState);
 
-	//DirectX3D::d3d11Context_->Draw(6, 0);
+	DirectX3D::d3d11Context_->Draw(6, 0);
 
 	DirectX3D::d3d11Context_->RSSetState(nullptr);
 }
 
-void Texture::Release() {
+void Image::Release()
+{
 }

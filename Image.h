@@ -1,23 +1,20 @@
 #pragma once
-#include "BaseObject.h"
-#include <Windows.h>
-#include <string>
-#include <d3d11.h>
 #include "DirectX3D.h"
-#include <DirectXMath.h>
+#include <string>
+#include "BaseObject.h"
 
 namespace {
 	ID3D11Buffer* vertexBuffer_;
 }
 
+
 /// <summary>
-/// テクスチャを表示するクラス（※テクスチャ専用なので、そのまま呼んでも描画されません。）
+/// 画像を表示するクラス
 /// </summary>
-class Texture : public BaseObject {
+class Image : public BaseObject {
 private:
 	UINT width_, height_;
 	std::string path_;
-	
 
 public:
 	ID3D11SamplerState* samplerState_;
@@ -26,8 +23,8 @@ public:
 	Vertex vertices_[6];
 	DirectX::XMMATRIX matrix_;
 
-	Texture(std::string path, float leftX, float leftY);
-	~Texture() {};
+	Image(std::string path, float leftX, float leftY);
+	~Image() {};
 	void Init() override;
 	void Update() override;
 	void Draw() override;
@@ -36,4 +33,3 @@ public:
 	DirectX::XMMATRIX GetMatrix() const { return matrix_; }
 	void SetMatrix(DirectX::XMMATRIX matrix) { this->matrix_ = matrix; }
 };
-

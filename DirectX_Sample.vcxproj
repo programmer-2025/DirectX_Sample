@@ -141,6 +141,7 @@
     <ClCompile Include="DirectX2D.cpp" />
     <ClCompile Include="FBX.cpp" />
     <ClCompile Include="FontText.cpp" />
+    <ClCompile Include="Image.cpp" />
     <ClCompile Include="ImGUI\imgui.cpp" />
     <ClCompile Include="ImGUI\imgui_demo.cpp" />
     <ClCompile Include="ImGUI\imgui_draw.cpp" />
@@ -171,6 +172,7 @@
     <ClInclude Include="FontText.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="BaseObject.h" />
+    <ClInclude Include="Image.h" />
     <ClInclude Include="ImGUI\imconfig.h" />
     <ClInclude Include="ImGUI\imgui.h" />
     <ClInclude Include="ImGUI\imgui_impl_android.h" />
