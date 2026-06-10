@@ -13,6 +13,7 @@ using namespace DirectX;
 
 FBX::FBX()
 	: BaseObject("FBX", true) {
+	isShowTexture_ = true;
 	indexCount_ = -1;
 	materialCount_ = -1;
 	polygonCount_ = -1;
@@ -154,6 +155,7 @@ void FBX::Update() {
 	cb.worldViewProj = XMMatrixTranspose(world * view * projection);
 
 	ImGui::Begin("FBX");
+	ImGui::Checkbox("texture", &isShowTexture_);
 	ImGui::SliderFloat("X", &postion_.x, -1.0f, 1.0f);
 	ImGui::SliderFloat("Y", &postion_.y, -1.0f, 1.0f);
 	ImGui::SliderFloat("Z", &postion_.z, -1.0f, 1.0f);
@@ -177,10 +179,17 @@ void FBX::Draw() {
 	DirectX3D::d3d11Context_->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 	DirectX3D::d3d11Context_->IASetVertexBuffers(0, 1, &pVertexBuffer_, &stride, &offset);
 	for (int i = 0; i < materialCount_; i++) {
-		if (materials_[i].texture != nullptr) {
-			DirectX3D::d3d11Context_->IASetIndexBuffer(pIndexBuffer_[i], DXGI_FORMAT_R32_UINT, 0);
-			DirectX3D::d3d11Context_->PSSetShaderResources(0, 1, &materials_[i].texture->shaderResourceView_);
-			DirectX3D::d3d11Context_->PSSetSamplers(0, 1, &materials_[i].texture->samplerState_);
+		if (!isShowTexture_) {
+			ID3D11ShaderResourceView* nullSRV[1] = { nullptr };
+			DirectX3D::d3d11Context_->PSSetShaderResources(0, 1, nullSRV);
+			continue;
+		}
+		else {
+			if (materials_[i].texture != nullptr) {
+				DirectX3D::d3d11Context_->IASetIndexBuffer(pIndexBuffer_[i], DXGI_FORMAT_R32_UINT, 0);
+				DirectX3D::d3d11Context_->PSSetShaderResources(0, 1, &materials_[i].texture->shaderResourceView_);
+				DirectX3D::d3d11Context_->PSSetSamplers(0, 1, &materials_[i].texture->samplerState_);
+			}
 		}
 	}
 	DirectX3D::d3d11Context_->VSSetConstantBuffers(0, 1, &pConstantBuffer_);

@@ -18,6 +18,8 @@ struct MATERIAL {
 /// </summary>
 class FBX : public BaseObject {
 private:
+	bool isShowTexture_;
+
 	ID3D11Buffer* pVertexBuffer_; //頂点バッファ
 	ID3D11Buffer** pIndexBuffer_; //インデックスバッファ（※数は分からないため、ポインタの配列）
 	ID3D11Buffer* pConstantBuffer_; //コンスタントバッファ
